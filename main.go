@@ -1,0 +1,40 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+)
+
+func main() {
+	http.HandleFunc("/text", handleTextEndpoint())
+	http.HandleFunc("/json", handleJsonEndpoint())
+
+	port := "3000"
+	log.Printf("Starting app on port: %s\n", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
+}
+
+func handleTextEndpoint() func(writer http.ResponseWriter, request *http.Request) {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		writer.WriteHeader(http.StatusOK)
+		fmt.Fprint(writer, "Hello from Starter Go App")
+	}
+}
+
+func handleJsonEndpoint() func(writer http.ResponseWriter, request *http.Request) {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		response := make(map[string]string)
+		response["status"] = "ok"
+
+		raw, err := json.Marshal(response)
+		if err != nil {
+			writer.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		writer.WriteHeader(http.StatusOK)
+		writer.Write(raw)
+	}
+}
