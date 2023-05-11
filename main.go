@@ -8,12 +8,22 @@ import (
 )
 
 func main() {
+	http.HandleFunc("/", handleRootEndpoint())
 	http.HandleFunc("/text", handleTextEndpoint())
 	http.HandleFunc("/json", handleJsonEndpoint())
 
 	port := "3000"
 	log.Printf("Starting app on port: %s\n", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
+}
+
+func handleRootEndpoint() func(writer http.ResponseWriter, request *http.Request) {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		writer.WriteHeader(http.StatusOK)
+		fmt.Fprint(writer, `
+Welcome to GitLab workspace demo Go HTTP app!
+`)
+	}
 }
 
 func handleTextEndpoint() func(writer http.ResponseWriter, request *http.Request) {
