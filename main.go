@@ -20,9 +20,12 @@ func main() {
 func handleRootEndpoint() func(writer http.ResponseWriter, request *http.Request) {
 	return func(writer http.ResponseWriter, request *http.Request) {
 		writer.WriteHeader(http.StatusOK)
-		fmt.Fprint(writer, `
-Welcome to GitLab workspace demo Go HTTP app!
-`)
+		host := request.Host
+		fmt.Fprintf(writer, `
+Welcome to GitLab workspace demo Go HTTP app! <br/><br/>
+- https://%s/text for Textual response
+- https://%s/json for JSON response
+`, host, host)
 	}
 }
 
