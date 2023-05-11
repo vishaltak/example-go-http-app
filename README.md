@@ -12,3 +12,7 @@ This project contains the following
 
 - The webapp can be started using `go run main.go`
 - The test can be run using `go test`
+
+# What next
+
+Go ahead, make sure changes and play around with it!

@@ -19,35 +19,45 @@ func main() {
 
 func handleRootEndpoint() func(writer http.ResponseWriter, request *http.Request) {
 	return func(writer http.ResponseWriter, request *http.Request) {
+		writer.Header().Set("Content-Type", "text/html")
 		writer.WriteHeader(http.StatusOK)
 		host := request.Host
 		fmt.Fprintf(writer, `
 Welcome to GitLab workspace demo Go HTTP app! <br/><br/>
-- https://%s/text for Textual response
-- https://%s/json for JSON response
-`, host, host)
+You can browse <br/>
+- <a href="https://%[1]s/text">https://%[1]s/text</a> for Textual response <br/>
+- <a href="https://%[1]s/json">https://%[1]s/json</a> for JSON response <br/>
+`, host)
 	}
 }
 
 func handleTextEndpoint() func(writer http.ResponseWriter, request *http.Request) {
 	return func(writer http.ResponseWriter, request *http.Request) {
+		writer.Header().Set("Content-Type", "text/html")
+		response := ""
+		for k, v := range request.Header {
+			response += fmt.Sprintf("%s : %v <br/>", k, v)
+		}
 		writer.WriteHeader(http.StatusOK)
-		fmt.Fprint(writer, "Hello from Starter Go App")
+		writer.Write([]byte(response))
 	}
 }
 
 func handleJsonEndpoint() func(writer http.ResponseWriter, request *http.Request) {
 	return func(writer http.ResponseWriter, request *http.Request) {
-		response := make(map[string]string)
-		response["status"] = "ok"
+		writer.Header().Set("Content-Type", "application/json")
+		headers := make(map[string]interface{})
+		for k, v := range request.Header {
+			headers[k] = v
+		}
 
-		raw, err := json.Marshal(response)
+		response, err := json.MarshalIndent(headers, "", "  ")
 		if err != nil {
 			writer.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
 		writer.WriteHeader(http.StatusOK)
-		writer.Write(raw)
+		writer.Write(response)
 	}
 }
