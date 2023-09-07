@@ -6,7 +6,7 @@ This project contains the following
     - http://localhost:3000/json
     - http://localhost:3000/text
 - a sample test
-- a .devfile.yaml to run this project in gitlab workspaces
+- a `.devfile.yaml` to run this project in gitlab workspaces
 
 # Running the project in Gitlab Workspaces
 
