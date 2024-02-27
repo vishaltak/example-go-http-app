@@ -6,7 +6,7 @@ components:
       gl/use-vscode-1-81: false
     container:
       # NOTE: THIS IMAGE EXISTS ONLY FOR DEMO PURPOSES AND WILL NOT BE MAINTAINED
-      image: registry.gitlab.com/gitlab-org/remote-development/gitlab-remote-development-docs/go:1.22.0-ubuntu-24.04
+      image: registry.gitlab.com/gitlab-org/remote-development/gitlab-remote-development-docs/go:1.22.0-ubuntu-22.04
       memoryRequest: 1024M
       memoryLimit: 2048M
       cpuRequest: 500m
